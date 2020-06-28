@@ -135,3 +135,4 @@ def truth_table():
 
 if __name__ == '__main__':
     main_menu()
+# Don't worry be happy :)
