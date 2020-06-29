@@ -6,7 +6,7 @@ def main_menu():
     print("^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-")
     print("^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-")
     print("^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-")
-    print("PYTHON TRUTH TABLE GENERATOR")
+    print("PYTHON BINARY TRUTH TABLE GENERATOR")
     print("^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-")
     print("SELECT ONE OF THE FOLLOWING OPTIONS:")
     print("1. INSTRUCTIONS")
@@ -16,7 +16,7 @@ def main_menu():
     if choice == "1":
         instructions()
     elif choice == "2":
-        truth_table()
+        binary_truth_table()
     elif choice == "3":
         print("Thanks for using the program! Have a great day :)")
         sys.exit()
@@ -59,13 +59,13 @@ def instructions():
         main_menu()
     elif wait[0] == "n":
         print("Let's create a truth table then!")
-        truth_table()
+        binary_truth_table()
     else:
         print("Invalid input!")
         main_menu()
 
 
-def truth_table():
+def binary_truth_table():
     while True:
         try:
             number_inputs = int(input("Please enter the number of inputs that the statement has (1 to 5): "))
@@ -74,35 +74,35 @@ def truth_table():
             break
         except ValueError:
             print("You must input a number between 1 and 5 (inclusive)")
-            truth_table()
+            binary_truth_table()
 
-    truths = list(itertools.product([True, False], repeat=number_inputs))
+    truths = list(itertools.product([1, 0], repeat=number_inputs))
     # making sure to cover it to lower just in case :)
     statement = input("Please input the logical statement e.g ( p and q) and (not r) >>> ").lower()
 
     if number_inputs == 1:
-        print("P            {0}".format(statement))
+        print("P {0}".format(statement))
     elif number_inputs == 2:
         if "".join(statement.split()) == "not(pandnotq)" or "".join(statement.split()) == "notporq":
-            print("P    \t\tQ           P ==> Q")
+            print("P\t\tQ           P ==> Q")
         elif "".join(statement.split()) == "(notporq)and(notqorp)" or\
                "".join(statement.split()) == "not(pandnotq)andnot(qandnotp)":
             print("P    \t\tQ           P <==> Q")
         else:
-            print("P    \t\tQ           {0}".format(statement))
+            print("P\t\tQ       {0}".format(statement))
     elif number_inputs == 3:
-        print("P    \t\tQ   \t\tR           {0}".format(statement))
+        print("P\t\tQ\t\tR      {0}".format(statement))
     elif number_inputs == 4:
-        print("P    \t\tQ   \t\t    R\t\t   S           {0}".format(statement))
+        print("P\t\tQ\t\tR\t\t   S     {0}".format(statement))
     else:
-        print("P    \t\tQ   \t\tR   \t\t    S\t\t   T           {0}".format(statement))
+        print("P    \t\tQ   \t\tR   \t\t    S\t\t   T       {0}".format(statement))
 
-    print("-"*20*number_inputs)
+    print("-"*30*number_inputs)
 
     for truth in truths:
         position = 0
         if number_inputs == 1:
-            p = truth[0] 
+            p = truth[0]
         elif number_inputs == 2:
             p, q = truth[0], truth[1]
         elif number_inputs == 3:
@@ -120,7 +120,11 @@ def truth_table():
 
         try:
             truth = eval(statement)  # evaluates the statement as a python statement
-            print(truth)
+            if truth == False:
+                print(0)
+            else:
+                print(1)
+            #print(truth)
         except ValueError:
             print("Unable to evaluate. Check statement and try again. ")
 
@@ -128,7 +132,7 @@ def truth_table():
 
     wait = input("Create another truth table? y/n ").lower()
     if wait[0] == "y":
-        truth_table()
+        binary_truth_table()
     else:
         main_menu()
 
